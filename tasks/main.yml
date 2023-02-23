@@ -3,9 +3,19 @@
 # SPDX short identifier: BSD-3-Clause
 ---
 
-- name: Ensure IMAP and POP3 server (dovecot) is not installed (CIS)
-  become: true
-  ansible.builtin.package:
-    name:
-      - 'dovecot'
-    state: absent
+# We put the entire role in a block so we can create
+# a role specific tag, which saves the caller from
+# having to do so in their playbook.
+- name: Role foolean/dovecot
+  block:
+
+    - name: Ensure IMAP and POP3 server (dovecot) is not installed (CIS)
+      become: true
+      ansible.builtin.package:
+        name:
+          - 'dovecot'
+        state: absent
+
+  # Tags to be applied to this role (block)
+  tags:
+    - 'role_foolean_dovecot'
